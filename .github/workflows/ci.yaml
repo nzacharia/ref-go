@@ -1,0 +1,17 @@
+name: Push
+on:
+  push:
+    branches:
+      - main
+jobs:
+  DeployReferenceApp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Reference App
+        uses: nzacharia/reference-pipeline@v1
+      - name: Unit Test
+        run: |
+              go install github.com/cucumber/godog/cmd/godog@upd-go1.18
+              cd functional/godogs
+              export PATH=$PATH:$HOME/go/bin
+              SERVICE_ENDPOINT="http://localhost:8080/service" godog run

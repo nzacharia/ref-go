@@ -1,0 +1,22 @@
+version: '3'
+services:
+  service:
+    container_name: service
+    hostname: service
+    build:
+      dockerfile: ./Dockerfile.service
+    ports:
+      - "8080:8080"
+
+  godog:
+    build:
+      dockerfile: ./Dockerfile.godog
+    volumes:
+      - .:/opt/app
+    working_dir: /opt/app
+
+  k6:
+    image: grafana/k6
+    volumes:
+      - .:/opt/app
+    working_dir: /opt/app
